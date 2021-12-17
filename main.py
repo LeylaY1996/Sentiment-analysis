@@ -104,4 +104,44 @@ print(f"Shapes of a single sentence : {np.array(sample_one_hot_rep).shape}")
 
 #if you run this cell it will give you a memory error
 
-data.head()
+from sklearn.feature_extraction.text import CountVectorizer
+
+sample_bow = CountVectorizer()
+
+# sample_corpus = [['the', 'cat', 'sat'],
+#                  ['the', 'cat', 'sat', 'in', 'the', 'hat'],
+#                  ['the', 'cat', 'with', 'the', 'hat']]
+
+sample_corpus = ["the cat sat", "the cat sat in the hat", "the cat with the hat"]
+
+sample_bow.fit(sample_corpus)
+
+
+def get_bow_representation(text):
+    return sample_bow.transform(text)
+
+
+print(f"Vocabulary mapping for given sample corpus : \n {sample_bow.vocabulary_}")
+print("\nBag of word Representation of sentence 'the cat cat sat in the hat'")
+print(get_bow_representation(["the cat cat sat in the hat"]).toarray())
+
+sample_bow = CountVectorizer(binary=True)
+
+sample_corpus = ["the cat sat", "the cat sat in the hat", "the cat with the hat"]
+
+sample_bow.fit(sample_corpus)
+
+
+def get_bow_representation(text):
+    return sample_bow.transform(text)
+
+
+print(f"Vacabulary mapping for given sample corpus : \n {sample_bow.vocabulary_}")
+print("\nBag of word Representation of sentence 'the the the the cat cat sat in the hat'")
+print(get_bow_representation(["the the the the cat cat sat in the hat"]).toarray())
+#data.head()
+
+bow = CountVectorizer()
+bow_rep = bow.fit_transform(data.loc[:, 'text'].astype('str'))
+
+print(f"Shape of Bag of word representaion matrix : {bow_rep.toarray().shape}")
